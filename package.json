@@ -1,0 +1,44 @@
+{
+  "name": "vue-prefetch",
+  "version": "0.0.1",
+  "description": "data preloading solution for vue project",
+  "main": "dist/bundle.js",
+  "module": "dist/bundle.esm.js",
+  "browser": "dist/bundle.umd.js",
+  "author": "sdpfe-group",
+  "scripts": {
+    "build": "webpack",
+    "test": "NODE_ENV=test jest"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "vue2",
+    "prefetch",
+    "preload"
+  ],
+  "peerDependencies": {
+    "babel-core": "6.26.3",
+    "webpack": "^5",
+    "babel-loader": ">=7.1.5",
+    "vue-loader": ">=14.2.4"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.0",
+    "ts-loader": "^9.0.0",
+    "@types/jest": "^26.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/cli": "^7.0.0",
+    "jest": "^26.0.0",
+    "babel-jest": "^26.0.0",
+    "@vue/test-utils": "^1.0.0",
+    "vue-jest": "^3.0.0",
+    "vue-template-compiler": "^2.6.0",
+    "webpack-cli": "^4.0.0",
+    "webpack-node-externals": "^2.5.0",
+    "vue-loader": "^14.2.4"
+  },
+  "license": "MIT"
+}
