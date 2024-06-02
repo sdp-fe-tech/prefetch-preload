@@ -2,9 +2,9 @@
   "name": "vue-prefetch",
   "version": "0.0.1",
   "description": "data preloading solution for vue project",
-  "main": "dist/bundle.js",
-  "module": "dist/bundle.esm.js",
-  "browser": "dist/bundle.umd.js",
+  "main": "dist/sdp-vue-prefetch.js",
+  "module": "dist/sdp-vue-prefetch.esm.js",
+  "browser": "dist/sdp-vue-prefetch.umd.js",
   "author": "sdpfe-group",
   "scripts": {
     "build": "webpack",

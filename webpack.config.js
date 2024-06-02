@@ -5,7 +5,7 @@ const config = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'sdp-vue-prefetch.js',
     library: 'sdp-vue-prefetch',
     libraryTarget: 'umd',
     umdNamedDefine: true
