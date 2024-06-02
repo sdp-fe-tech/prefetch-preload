@@ -1,0 +1,15 @@
+{
+  "name": "webpack-route-map",
+  "version": "1.0.0",
+  "description": "handle base project vue route prefetch ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "route",
+    "prefecth"
+  ],
+  "author": "yangbo",
+  "license": "ISC"
+}
