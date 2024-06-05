@@ -1,7 +1,7 @@
 
 # Vue prefetch
 
-[![npm version](https://badge.fury.io/js/my-npm-package.svg)](https://badge.fury.io/js/my-npm-package)
+[![npm version](https://badge.fury.io/js/vue-prefetch.svg)](https://badge.fury.io/js/vue-prefetch)
 
 ## Table of Contents
 
@@ -31,11 +31,11 @@
 To install the package, you can use npm or yarn:
 
 ```bash
-npm install my-npm-package
+npm install vue-prefetch
 ```
 
 ```bash
-yarn add my-npm-package
+yarn add vue-prefetch
 ```
 
 ## Usage
@@ -46,16 +46,16 @@ You can import the package in your project as follows:
 
 ```javascript
 // ES Module
-import { hello } from 'my-npm-package';
+import { hello } from 'vue-prefetch';
 
 // CommonJS
-const { hello } = require('my-npm-package');
+const { hello } = require('vue-prefetch');
 ```
 
 ### Example
 
 ```typescript
-import { hello } from 'my-npm-package';
+import { hello } from 'vue-prefetch';
 
 console.log(hello()); // Output: Hello World
 ```
