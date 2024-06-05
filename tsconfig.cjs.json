@@ -14,6 +14,9 @@
     "include": [
         "src/**/*"
     ],
+    "types": [
+        "vue"
+    ],
     "exclude": [
         "node_modules",
         "dist",
