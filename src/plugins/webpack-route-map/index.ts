@@ -1,21 +1,33 @@
-const fs = require('fs');
-const path = require('path');
-const parser = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
-const generate = require('@babel/generator').default;
-const { RawSource } = require('webpack-sources');
+import fs from 'fs';
+import path from 'path';
+import * as parser from '@babel/parser';
+import traverse from '@babel/traverse';
+import { Compiler } from 'webpack';
+
+interface RouteMappingPluginOptions {
+  routerFilePath: string;
+  outputFile?: string;
+}
+
+interface RouteMapping {
+  componentName: string;
+  importPath: string;
+}
 
 class RouteMappingPlugin {
-  constructor(options = {}) {
+  options: RouteMappingPluginOptions;
+
+  constructor(options: RouteMappingPluginOptions) {
     this.options = options;
   }
 
-  apply(compiler) {
+  apply(compiler: Compiler) {
     compiler.hooks.emit.tapAsync(
       'RouteMappingPlugin',
       (compilation, callback) => {
         const routerFilePath = path.resolve(this.options.routerFilePath);
         const outputFile = this.options.outputFile || 'route-mapping.js';
+
         fs.readFile(routerFilePath, 'utf-8', (err, data) => {
           if (err) {
             return callback(err);
@@ -26,18 +38,16 @@ class RouteMappingPlugin {
             plugins: ['dynamicImport'],
           });
 
-          const routeMappings = [];
+          const routeMappings: RouteMapping[] = [];
           const dynamicImports = new Map();
 
           traverse(ast, {
             ImportDeclaration({ node }) {
-              // 处理 import 语句，获取组件路径
               const importPath = node.source.value;
               const componentName = node.specifiers[0].local.name;
               routeMappings.push({ componentName, importPath });
             },
             CallExpression(path) {
-              // 处理动态 import 语句
               if (
                 path.node.callee.type === 'Import' &&
                 path.node.arguments[0].type === 'StringLiteral'
@@ -45,7 +55,7 @@ class RouteMappingPlugin {
                 const importPath = path.node.arguments[0].value;
                 const parentPath = path.findParent(
                   (p) =>
-                    p.isObjectProperty() && p.node.key.name === 'component',
+                    p.isObjectProperty() && (p.node.key as any).name === 'component',
                 );
                 if (parentPath) {
                   dynamicImports.set(parentPath.node, importPath);
@@ -54,28 +64,27 @@ class RouteMappingPlugin {
             },
           });
 
-          const routes = [];
+          const routes: { path?: string; component?: string }[] = [];
 
           traverse(ast, {
             NewExpression(path) {
-              // 确保只处理 new Router() 实例
               if (
-                path.node.callee.name === 'Router' &&
+                (path.node.callee as any).name === 'Router' &&
                 path.node.arguments.length > 0 &&
                 path.node.arguments[0].type === 'ObjectExpression'
               ) {
                 const routesProperty = path.node.arguments[0].properties.find(
-                  (prop) => prop.key.name === 'routes',
+                  (prop: any) => prop.key.name === 'routes',
                 );
 
                 if (
                   routesProperty &&
-                  routesProperty.value.type === 'ArrayExpression'
+                  (routesProperty as any).value.type === 'ArrayExpression'
                 ) {
-                  routesProperty.value.elements.forEach((routeNode) => {
+                  (routesProperty as any).value.elements.forEach((routeNode: any) => {
                     if (routeNode.type === 'ObjectExpression') {
-                      const route = {};
-                      routeNode.properties.forEach((prop) => {
+                      const route: { path?: string; component?: string } = {};
+                      routeNode.properties.forEach((prop: any) => {
                         if (prop.key.name === 'path') {
                           route.path = prop.value.value;
                         }
@@ -105,17 +114,12 @@ class RouteMappingPlugin {
               }
             },
           });
-
-          const outputPath = path.resolve(
-            compilation.options.output.path,
-            outputFile,
-          );
           const code = `window.__sdp_base_route_maps = ${JSON.stringify(routes)}`;
           compilation.assets[outputFile] = {
             source: () => code,
-            size: () => outputData.length,
-          };
-          // compilation.assets[outputFile] = new RawSource(manifestScript);
+            size: () => code.length,
+          } as any;
+
           callback();
         });
       },
@@ -123,4 +127,4 @@ class RouteMappingPlugin {
   }
 }
 
-module.exports = RouteMappingPlugin;
+export default RouteMappingPlugin;
