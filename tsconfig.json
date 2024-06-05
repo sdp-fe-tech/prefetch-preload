@@ -7,7 +7,7 @@
             "DOM"
         ],
         "declaration": true,
-        "outDir": "./dist",
+        "outDir": "./build",
         "strict": true,
         "moduleResolution": "node",
         "esModuleInterop": true,

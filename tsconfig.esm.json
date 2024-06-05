@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "outDir": "./build/esm",
+        "rootDir": "./src",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "declaration": true,
+        "baseUrl": "./",
+        "paths": {
+            "*": [
+                "src/*"
+            ]
+        },
+        "target": "es6",
+        "sourceMap": false
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "build",
+        "tests"
+    ]
+}

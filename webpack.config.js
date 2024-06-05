@@ -1,11 +1,13 @@
 const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
-
+const { execSync } = require('child_process');
+const pkg = require('./package.json')
 const config = {
   entry: './src/index.ts',
+  mode: "production",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'sdp-vue-prefetch.js',
+    path: path.resolve(__dirname, 'build/umd'),
+    filename: `sdp-vue-prefetch.umd.js`,
     library: 'sdp-vue-prefetch',
     libraryTarget: 'umd',
     umdNamedDefine: true
@@ -13,12 +15,22 @@ const config = {
   resolve: {
     extensions: ['.ts', '.js', '.vue']
   },
+  target: 'node', 
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: 'ts-loader'
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                declaration: false // 不在 webpack 编译时生成声明文件
+              }
+            }
+          }
+        ],
+        exclude: /node_modules/
       },
       {
         test: /\.js$/,

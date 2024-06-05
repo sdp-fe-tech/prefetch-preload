@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "outDir": "./build/cjs",
+        "rootDir": "./src",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "commonjs",
+        "target": "es6",
+        "declaration": true,
+        "sourceMap": false
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "build",
+        "tests"
+    ]
+}
