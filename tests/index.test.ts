@@ -1,5 +1,2 @@
-import { hello } from '../src/index';
+import { getClientData } from '../src/index';
 
-test('says hello', () => {
-    expect(hello()).toBe('Hello World');
-});

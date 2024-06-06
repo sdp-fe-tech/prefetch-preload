@@ -11,8 +11,10 @@
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:umd": "webpack --config webpack.config.js",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:umd",
-    "test": "NODE_ENV=test jest"
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:umd && npm run copy:package",
+    "test": "NODE_ENV=test jest",
+    "copy:package": "cpx package.json build/",
+    "deploy": "cd build && npm publish"
   },
   "files": [
     "build"
@@ -39,6 +41,7 @@
     "@types/webpack-sources": "^3.2.3",
     "@vue/test-utils": "^1.0.0",
     "babel-jest": "^26.0.0",
+    "cpx": "^1.5.0",
     "jest": "^26.0.0",
     "rimraf": "^5.0.7",
     "ts-loader": "^9.0.0",
