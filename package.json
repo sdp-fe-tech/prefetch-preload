@@ -13,7 +13,7 @@
     "build:umd": "webpack --config webpack.config.js",
     "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:umd && npm run copy:files",
     "test": "NODE_ENV=test jest",
-    "copy:files": "cpx 'package.json LICENSE' build/",
+    "copy:files": "cpx \"{package.json,LICENSE}\" build/",
     "deploy": "cd build &&  npm publish",
     "deploy:local": "cd build && npm link"
   },
