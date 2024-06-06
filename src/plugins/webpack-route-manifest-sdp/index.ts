@@ -26,10 +26,9 @@ function toLink(assets: Asset[], _pattern: string, _filemap: Record<string, Asse
   return [{ key: 'Link', value }];
 }
 
-function toFunction<T>(val: Record<string, T> | ((key: string) => T) | undefined | boolean | Function): (key: string) => T {
+function toFunction<T>(val: Record<string, T> | ((key: string) => T) | undefined | boolean | Function): any {
   if (typeof val === 'function') return val as (key: string) => T;
   if (typeof val === 'object') return (key: string) => (val as Record<string, T>)[key];
-  throw new Error('Invalid type');
 }
 
 export interface RouteManifestOptions {

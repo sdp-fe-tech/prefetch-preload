@@ -1,1 +1,1 @@
-export * from "./getClientDataLoader"
+export * as getClientDataLoader from "./getClientDataLoader"

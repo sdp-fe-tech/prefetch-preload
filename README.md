@@ -1,5 +1,5 @@
 
-# Vue prefetch
+# prefetch-preload
 
 [![npm version](https://badge.fury.io/js/vue-prefetch.svg)](https://badge.fury.io/js/vue-prefetch)
 
@@ -16,7 +16,7 @@
 
 ## Introduction
 
-`Vue prefetch` is a powerful and flexible npm package that provides utility methods for Vue.js, as well as custom Webpack loaders and plugins. This package is designed to be highly modular, supporting multiple module formats including ES, CommonJS, and UMD.
+`prefetch-preload` is a powerful and flexible npm package that provides utility methods for Vue.js, as well as custom Webpack loaders and plugins. This package is designed to be highly modular, supporting multiple module formats including ES, CommonJS, and UMD.
 
 ## Features
 

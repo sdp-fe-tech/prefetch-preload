@@ -58,12 +58,14 @@ function extractGetClientDataFunctions(scriptContent: string): FunctionData[] {
 function addToFunctions(
   existingFunctions: { [key: string]: FunctionData[] },
   newFunctions: FunctionData[],
-  resourcePath: string
+  resourcePath: string,
+  dirPath: string
 ): { [key: string]: FunctionData[] } {
   const relativePath = path.relative(
-    path.resolve(__dirname, '../../src'),
+    dirPath,
     resourcePath
   );
+  // const relativePath = resourcePath;
   if (!existingFunctions[relativePath]) {
     existingFunctions[relativePath] = [];
   }
@@ -96,7 +98,7 @@ export default function (
   }
 
   const options = this.getOptions();
-  const { outputPath } = options;
+  const { outputPath, dirPath } = options;
 
   const scriptContent = extractScriptContent(source);
   if (!scriptContent) {
@@ -112,7 +114,8 @@ export default function (
     const updatedFunctions = addToFunctions(
       existingFunctions,
       newFunctions,
-      this.resourcePath
+      this.resourcePath,
+      dirPath
     );
 
     fs.writeFileSync(

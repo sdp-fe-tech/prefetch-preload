@@ -7,6 +7,7 @@ type getFn = (url: string, params: Params) => Promise<any>;
 
 type postFn = (url: string, params: Params, headerParams?: HeaderParams) => Promise<any>;
 
+
 interface Ctx {
   get: getFn,
   post: postFn
@@ -23,7 +24,7 @@ interface HeaderParams {
 
 interface DataLoader {
   name: string;
-  fn: (ctx: Ctx) => Promise<any>;
+  fn: (ctx: Ctx) => Promise<any> | Promise<any>;
 }
 
 interface RouteMap {
@@ -56,8 +57,8 @@ class PrefetchDataManager {
     const dataLoader = this.dataMap.get(this.currentPath!);
     if (dataLoader) {
       const loader = dataLoader.find((v) => v.name === name);
-      if (loader && this.ctx) {
-        return loader.fn(this.ctx);
+      if (loader) {
+        return loader.fn as any;
       }
     }
     return Promise.resolve(null);
@@ -67,8 +68,8 @@ class PrefetchDataManager {
     // 获取指定路径的预取数据
     if (routePath) {
       let pageId: string | null = null;
-      console.log('window.__sdp_base_route_maps', window.__sdp_base_route_maps);
-      const routeMap: RouteMap | undefined = window.__sdp_base_route_maps.find(
+      console.log('__sdp_base_route_maps', window.__sdp_base_route_maps);
+      const routeMap: RouteMap | undefined = window.__sdp_base_route_maps?.find(
         (v: RouteMap) => v.path === routePath,
       );
       if (routeMap) {
