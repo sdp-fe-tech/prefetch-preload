@@ -2,19 +2,20 @@
   "name": "vue-prefetch",
   "version": "0.0.1",
   "description": "data preloading solution for vue project",
-  "main": "build/cjs/index.js",
-  "module": "build/esm/index.js",
-  "browser": "build/umd/sdp-vue-prefetch.umd.js",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "browser": "umd/sdp-vue-prefetch.umd.js",
   "author": "sdpfe-group",
   "scripts": {
     "clean": "rimraf build",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:umd": "webpack --config webpack.config.js",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:umd && npm run copy:package",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:umd && npm run copy:files",
     "test": "NODE_ENV=test jest",
-    "copy:package": "cpx package.json build/",
-    "deploy": "cd build && npm publish"
+    "copy:files": "cpx 'package.json LICENSE' build/",
+    "deploy": "cd build &&  npm publish",
+    "deploy:test": "cd build && npm link"
   },
   "files": [
     "build"
