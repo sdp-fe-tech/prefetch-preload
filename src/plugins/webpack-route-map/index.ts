@@ -14,7 +14,7 @@ interface RouteMapping {
   importPath: string;
 }
 
-class RouteMappingPlugin {
+export class RouteMappingPlugin {
   options: RouteMappingPluginOptions;
 
   constructor(options: RouteMappingPluginOptions) {
@@ -127,4 +127,3 @@ class RouteMappingPlugin {
   }
 }
 
-export default RouteMappingPlugin;

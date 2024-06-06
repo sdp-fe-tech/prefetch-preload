@@ -11,7 +11,7 @@ interface PluginOptions {
   outputPath: string;
 }
 
-class SdpPrefetchAsyncFnPlugin {
+export class PrefetchAsyncFnPlugin {
   options: PluginOptions;
 
   constructor(options: PluginOptions) {
@@ -22,7 +22,7 @@ class SdpPrefetchAsyncFnPlugin {
     const { outputPath } = this.options;
 
     compiler.hooks.emit.tapAsync(
-      'SdpPrefetchAsyncFnPlugin',
+      'PrefetchAsyncFnPlugin',
       (compilation: Compilation, callback: () => void) => {
         if (fs.existsSync(outputPath) && fs.readFileSync(outputPath, 'utf-8')) {
           const data = JSON.parse(fs.readFileSync(outputPath, 'utf-8')) as { [key: string]: FunctionData[] };
@@ -47,4 +47,3 @@ class SdpPrefetchAsyncFnPlugin {
   }
 }
 
-export default SdpPrefetchAsyncFnPlugin;

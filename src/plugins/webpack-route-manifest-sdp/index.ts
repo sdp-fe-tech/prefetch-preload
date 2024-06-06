@@ -32,7 +32,7 @@ function toFunction<T>(val: Record<string, T> | ((key: string) => T) | undefined
   throw new Error('Invalid type');
 }
 
-interface RouteManifestOptions {
+export interface RouteManifestOptions {
   routes: Record<string, string> | ((key: string) => string);
   assets?: Record<string, string> | ((key: string) => string);
   headers?: boolean | ((assets: Asset[], pattern: string, filemap: Record<string, Asset[]>) => Array<{ key: string; value: string }>);
@@ -42,7 +42,7 @@ interface RouteManifestOptions {
   inline?: boolean;
 }
 
-class RouteManifest {
+export class RouteManifestPlugin {
   run: (bundle: Compilation) => void;
 
   constructor(opts: RouteManifestOptions) {
@@ -138,4 +138,3 @@ class RouteManifest {
   }
 }
 
-export default RouteManifest;
