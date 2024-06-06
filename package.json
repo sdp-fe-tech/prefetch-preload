@@ -15,7 +15,7 @@
     "test": "NODE_ENV=test jest",
     "copy:files": "cpx 'package.json LICENSE' build/",
     "deploy": "cd build &&  npm publish",
-    "deploy:test": "cd build && npm link"
+    "deploy:local": "cd build && npm link"
   },
   "files": [
     "build"
