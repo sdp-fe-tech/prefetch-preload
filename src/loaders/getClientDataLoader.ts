@@ -61,11 +61,9 @@ function addToFunctions(
   resourcePath: string,
   dirPath: string
 ): { [key: string]: FunctionData[] } {
-  const relativePath = path.relative(
-    dirPath,
-    resourcePath
-  );
-  // const relativePath = resourcePath;
+
+  //踩坑: path.relative(dirPath, resourcePath) 会生成相对路径，而这个路径在 Windows 系统上会使用反斜杠\\,导致后续匹配不对
+  const relativePath = path.relative(dirPath, resourcePath).replace(/\\/g, '/'); // 将反斜杠替换为正斜杠
   if (!existingFunctions[relativePath]) {
     existingFunctions[relativePath] = [];
   }
