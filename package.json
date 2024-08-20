@@ -1,10 +1,11 @@
 {
-  "name": "prefetch-preload",
-  "version": "0.0.1",
-  "description": "data preloading solution for vue project",
+  "name": "@sdp/prefetch-preload",
+  "version": "0.0.7",
+  "description": "data preloading solution for project",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "author": "sdpfe-group",
+  "maintainers": ["lns567"],
   "scripts": {
     "clean": "rimraf build",
     "build:cjs": "tsc --project tsconfig.cjs.json",
@@ -12,12 +13,9 @@
     "build": "npm run build:cjs && npm run build:esm && npm run copy:files",
     "test": "NODE_ENV=test jest",
     "copy:files": "cpx \"{package.json,LICENSE}\" build/",
-    "deploy": "cd build &&  npm publish",
-    "deploy:local": "cd build && npm link"
+    "deploy": "npm run build && cd build && npm publish",
+    "deploy:local": "npm run build && cd build && npm link"
   },
-  "files": [
-    "build"
-  ],
   "keywords": [
     "vue2",
     "assets prefetch",
