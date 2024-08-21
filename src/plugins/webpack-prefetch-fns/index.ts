@@ -9,6 +9,7 @@ interface FunctionData {
 
 interface PluginOptions {
   outputPath: string;
+  outputFile?: string;
 }
 
 export class PrefetchAsyncFnPlugin {
@@ -19,7 +20,7 @@ export class PrefetchAsyncFnPlugin {
   }
 
   apply(compiler: Compiler): void {
-    const { outputPath } = this.options;
+    const { outputPath, outputFile } = this.options;
 
     compiler.hooks.emit.tapAsync(
       'PrefetchAsyncFnPlugin',
@@ -39,7 +40,7 @@ export class PrefetchAsyncFnPlugin {
           source += '};\n';
 
           // 使用 RawSource 生成资源对象
-          compilation.assets['sdpPrefetchAsyncFn.js'] = new RawSource(source) as any;
+          compilation.assets[outputFile || 'sdpPrefetchAsyncFn.js'] = new RawSource(source) as any;
         }
         callback();
       }

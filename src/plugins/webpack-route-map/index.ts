@@ -105,7 +105,6 @@ export class RouteMappingPlugin {
               }
             }
           });
-          console.log(routes, '路由');
           const code = `window.__sdp_base_route_maps = ${JSON.stringify(routes)}`;
           compilation.assets[outputFile] = {
             source: () => code,
