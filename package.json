@@ -5,7 +5,9 @@
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "author": "sdpfe-group",
-  "maintainers": ["lns567"],
+  "maintainers": [
+    "lns567"
+  ],
   "scripts": {
     "clean": "rimraf build",
     "build:cjs": "tsc --project tsconfig.cjs.json",
@@ -25,10 +27,11 @@
   ],
   "peerDependencies": {
     "babel-core": "6.26.3",
-    "webpack": "^5",
     "babel-loader": ">=7.1.5",
     "vue-loader": ">=14.2.4",
-    "babel-eslint": "^10.1.0"
+    "babel-eslint": "^10.1.0",
+    "webpack": "^5.0.0",
+    "html-webpack-plugin": "^5.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -56,5 +59,8 @@
     "node": "14.x"
   },
   "engine-strict": true,
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "safe-require": "^1.0.4"
+  }
 }

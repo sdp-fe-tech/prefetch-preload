@@ -3,6 +3,29 @@ import path from 'path';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
 import { Compiler } from 'webpack';
+import { createHash, BinaryToTextEncoding } from 'crypto'
+const safeRequire = require('safe-require')
+
+function createContentHash(
+  content: string,
+  hashFunction: 'md5' | 'sha1' | 'sha256' | 'sha512' = 'md5',
+  digestType: BinaryToTextEncoding = 'hex'
+): string {
+  const hash = createHash(hashFunction);
+  hash.update(content);
+  return hash.digest(digestType);
+}
+function replaceContentHashInFilename(
+  filename: string,
+  content: string,
+  hashFunction: 'md5' | 'sha1' | 'sha256' | 'sha512' = 'md5',
+  digestType: BinaryToTextEncoding = 'hex'
+): string {
+  return filename.replace(/\[contenthash(?::(\d+))?\]/g, (_, length) => {
+    const fullHash = createContentHash(content, hashFunction, digestType);
+    return length ? fullHash.substring(0, parseInt(length)) : fullHash;
+  });
+}
 
 interface RouteMappingPluginOptions {
   routerFilePath: string;
@@ -14,6 +37,9 @@ interface RouteMapping {
   importPath: string;
 }
 
+/**
+ * @description:
+ */
 export class RouteMappingPlugin {
   options: RouteMappingPluginOptions;
 
@@ -22,6 +48,38 @@ export class RouteMappingPlugin {
   }
 
   apply(compiler: Compiler) {
+    let hashedFilename;
+
+    compiler.hooks.compilation.tap('MyPlugin', (compilation) => {
+      const HtmlWebpackPlugin = safeRequire('html-webpack-plugin')
+
+      HtmlWebpackPlugin.getHooks(compilation).beforeAssetTagGeneration.tapAsync(
+        'MyPlugin',
+        (data: { plugin: { options: { chunks: string[]; }; }; }, cb: (arg0: null, arg1: any) => void) => {
+          // 确保将 route-mapping 加入到 chunks 中
+          if (!data.plugin.options.chunks.includes('route-mapping')) {
+            data.plugin.options.chunks.push('route-mapping');
+          }
+          cb(null, data);
+        },
+      );
+
+      HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tapAsync(
+        'MyPlugin',
+        (data: { headTags: { tagName: string; voidTag: boolean; attributes: { src: string; }; }[]; }, cb: (arg0: null, arg1: any) => void) => {
+          // 动态添加 route-mapping.js 到 script 标签中
+          data.headTags.push({
+            tagName: 'script',
+            voidTag: false,
+            attributes: { src: `xxxx.js` },
+          });
+          console.log('data.headTags', data.headTags);
+          cb(null, data);
+        },
+      );
+    });
+
+
     compiler.hooks.emit.tapAsync(
       'RouteMappingPlugin',
       (compilation, callback) => {
@@ -105,9 +163,9 @@ export class RouteMappingPlugin {
               }
             }
           });
-          console.log(routes, '路由');
           const code = `window.__sdp_base_route_maps = ${JSON.stringify(routes)}`;
-          compilation.assets[outputFile] = {
+          hashedFilename = replaceContentHashInFilename(outputFile, code)
+          compilation.assets[hashedFilename] = {
             source: () => code,
             size: () => code.length,
           } as any;
