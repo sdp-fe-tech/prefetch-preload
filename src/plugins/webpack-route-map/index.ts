@@ -54,14 +54,16 @@ export class RouteMappingPlugin {
     compiler.hooks.compilation.tap('RouteMappingPlugin', (compilation) => {
 
       const HtmlWebpackPlugin = safeRequire('html-webpack-plugin')
+      const publicPath = compilation.outputOptions.publicPath;
+
       HtmlWebpackPlugin.getHooks(compilation).beforeAssetTagGeneration.tapAsync(
         'RouteMappingPlugin',
         (data: { assets: { js: any[]; }; }, cb: (arg0: null, arg1: any) => void) => {
-          data.assets.js.unshift(hashedFilename)
+          const fileName = publicPath + hashedFilename
+          data.assets.js.unshift(fileName)
           cb(null, data);
         },
       );
-
       compilation.hooks.processAssets.tapAsync(
         {
           name: 'RouteMappingPlugin',
