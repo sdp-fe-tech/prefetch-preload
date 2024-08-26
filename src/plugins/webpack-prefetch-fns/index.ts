@@ -1,6 +1,7 @@
 import * as fs from 'fs';
-import { Compiler, Compilation } from 'webpack';
-import { RawSource } from 'webpack-sources';
+import { Compiler } from 'webpack';
+import { replaceContentHashInFilename } from '../../utils';
+const safeRequire = require('safe-require')
 
 interface FunctionData {
   name: string;
@@ -20,29 +21,55 @@ export class PrefetchAsyncFnPlugin {
   }
 
   apply(compiler: Compiler): void {
-    const { outputPath, outputFile } = this.options;
+    const { outputPath } = this.options;
+    let hashedFilename: string;
 
-    compiler.hooks.emit.tapAsync(
+    compiler.hooks.compilation.tap(
       'PrefetchAsyncFnPlugin',
-      (compilation: Compilation, callback: () => void) => {
-        if (fs.existsSync(outputPath) && fs.readFileSync(outputPath, 'utf-8')) {
-          const data = JSON.parse(fs.readFileSync(outputPath, 'utf-8')) as { [key: string]: FunctionData[] };
-          let source = 'window.__sdpPrefetchAsyncFns = {\n';
+      (compilation) => {
+        const HtmlWebpackPlugin = safeRequire('html-webpack-plugin')
+        const publicPath = compilation.outputOptions.publicPath;
 
-          for (const [key, value] of Object.entries(data)) {
-            source += `  '${key}': [\n`;
-            value.forEach(({ name, fn }) => {
-              source += `    {\n      name: '${name}',\n      fn: ${fn},\n    },\n`;
-            });
-            source += '  ],\n';
+        HtmlWebpackPlugin.getHooks(compilation).beforeAssetTagGeneration.tapAsync(
+          'PrefetchAsyncFnPlugin',
+          (data: { assets: { js: any[]; }; }, cb: (arg0: null, arg1: any) => void) => {
+            const fileName = publicPath + hashedFilename
+            data.assets.js.unshift(fileName)
+            cb(null, data);
+          },
+        );
+
+        compilation.hooks.processAssets.tapAsync(
+          {
+            name: 'RouteMappingPlugin',
+            stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
+          },
+          (assets, callback) => {
+            if (fs.existsSync(outputPath) && fs.readFileSync(outputPath, 'utf-8')) {
+              const data = JSON.parse(fs.readFileSync(outputPath, 'utf-8')) as { [key: string]: FunctionData[] };
+              let source = 'window.__sdpPrefetchAsyncFns = {\n';
+
+              for (const [key, value] of Object.entries(data)) {
+                source += `  '${key}': [\n`;
+                value.forEach(({ name, fn }) => {
+                  source += `    {\n      name: '${name}',\n      fn: ${fn},\n    },\n`;
+                });
+                source += '  ],\n';
+              }
+
+              source += '};\n';
+
+              const outputFile = this.options.outputFile || 'sdpPrefetchAsyncFn.js';
+              hashedFilename = replaceContentHashInFilename(outputFile, source);
+              // 将生成的代码注入到资源中
+              compilation.emitAsset(hashedFilename, {
+                source: () => source,
+                size: () => source.length,
+              } as any);
+            }
+            callback();
           }
-
-          source += '};\n';
-
-          // 使用 RawSource 生成资源对象
-          compilation.assets[outputFile || 'sdpPrefetchAsyncFn.js'] = new RawSource(source) as any;
-        }
-        callback();
+        )
       }
     );
   }
