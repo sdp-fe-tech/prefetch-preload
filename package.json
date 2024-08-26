@@ -1,6 +1,6 @@
 {
-  "name": "@sdp/prefetch-preload",
-  "version": "0.0.8-beta.9",
+  "name": "prefetch-preload",
+  "version": "0.0.1",
   "description": "data preloading solution for project",
   "main": "cjs/index.js",
   "module": "esm/index.js",
