@@ -1,6 +1,6 @@
 {
   "name": "prefetch-preload",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "data preloading solution for project",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -14,7 +14,7 @@
     "build:esm": "tsc --project tsconfig.esm.json",
     "build": "npm run build:cjs && npm run build:esm && npm run copy:files",
     "test": "NODE_ENV=test jest",
-    "copy:files": "cpx \"{package.json,LICENSE}\" build/",
+    "copy:files": "cpx \"{package.json,LICENSE,README.md}\" build/",
     "deploy": "npm run build && cd build && npm publish",
     "deploy:beta": "npm run build && cd build && npm publish --tag beta",
     "deploy:local": "npm run build && cd build && npm link"
