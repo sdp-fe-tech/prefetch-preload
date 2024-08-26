@@ -66,7 +66,7 @@ module.exports =  {
           test: /\.vue$/,
           use: [
             {
-              loader: '@sdp/prefetch-preload/cjs/loaders/getClientDataLoader.js', 
+              loader: 'prefetch-preload/cjs/loaders/getClientDataLoader.js', 
               options: {
                 outputPath: sdpPrefetchAsyncFnDataPath,
                 dirPath: path.resolve('./src'),
@@ -147,11 +147,21 @@ export default {
  }
 ```
 
-Now, our user list data will be requested immediately when the chunk file for this page is loaded.Here’s a demonstration image:
+Now, our user list data will be requested immediately when the chunk file for this page is loaded.Here’s a demonstration gif:
 
-![demonstration](./demonstration.gif)
+Before using prefetch,The data request starts after a period of time once the chunk file has loaded and after waiting for the instance to be fully loaded:
 
-You can see that the request for the page data is made even before the chunk file for the page has finished loading. This can significantly enhance the user experience under poor network conditions.
+![demonstration-before](./demonstration/demonstration-before.gif)
+
+After using preload,You can see that the request for the page data is made even before the chunk file for the page has finished loading. This can significantly enhance the user experience under poor network conditions:
+
+![demonstration](./demonstration/demonstration.gif)
+
+## Todo
+
+- **Simplified configuration**: A more streamlined configuration makes getting started easier.For example, compatible with standardized route definition and self-parsing.
+- **Supports more frameworks**:Supports more frameworks such as Vue and React.
+- **Support for resource preloading**:Supports preloading various resources, not just requests.
 
 ## Build and Test
 
