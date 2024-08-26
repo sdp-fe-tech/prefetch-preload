@@ -3,38 +3,13 @@ import path from 'path';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
 import { Compiler } from 'webpack';
-import { createHash, BinaryToTextEncoding } from 'crypto'
+import { replaceContentHashInFilename } from '../../utils';
 const safeRequire = require('safe-require')
 
-function createContentHash(
-  content: string,
-  hashFunction: 'md5' | 'sha1' | 'sha256' | 'sha512' = 'md5',
-  digestType: BinaryToTextEncoding = 'hex'
-): string {
-  const hash = createHash(hashFunction);
-  hash.update(content);
-  return hash.digest(digestType);
-}
-function replaceContentHashInFilename(
-  filename: string,
-  content: string,
-  hashFunction: 'md5' | 'sha1' | 'sha256' | 'sha512' = 'md5',
-  digestType: BinaryToTextEncoding = 'hex'
-): string {
-  return filename.replace(/\[contenthash(?::(\d+))?\]/g, (_, length) => {
-    const fullHash = createContentHash(content, hashFunction, digestType);
-    return length ? fullHash.substring(0, parseInt(length)) : fullHash;
-  });
-}
 
 interface RouteMappingPluginOptions {
   routerFilePath: string;
   outputFile?: string;
-}
-
-interface RouteMapping {
-  componentName: string;
-  importPath: string;
 }
 
 /**
@@ -49,7 +24,6 @@ export class RouteMappingPlugin {
 
   apply(compiler: Compiler) {
     let hashedFilename: string;
-
 
     compiler.hooks.compilation.tap('RouteMappingPlugin', (compilation) => {
 
@@ -70,7 +44,17 @@ export class RouteMappingPlugin {
           stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
         },
         (assets, callback) => {
-          const routerFilePath = path.resolve(this.options.routerFilePath);
+          // 检查 是否有routerFilePath, 没有的话使用项目src目录下的prefetch.js
+          let routerFilePath;
+          try {
+            routerFilePath = this.options.routerFilePath?
+              path.resolve(this.options.routerFilePath):
+              path.resolve('src/prefetch.js');
+          } catch (error) {
+            console.error('RouteMappingPlugin Error:', error);
+            return callback();
+          }
+
           const outputFile = this.options.outputFile || 'route-mapping.js';
 
           fs.readFile(routerFilePath, 'utf-8', (err, data) => {
