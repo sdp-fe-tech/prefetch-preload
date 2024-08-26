@@ -23,10 +23,11 @@ During the build process, it reads the mapping relationship between routes and p
 
 ## Features
 
-- **Simplified configuration**: A more streamlined configuration makes getting started easier.For example, compatible with standardized route definition and self-parsing.
-- **Supports more frameworks**:Supports more frameworks such as Vue and React.
+- **Vue.js utility methods**: A collection of useful methods to streamline your Vue.js development.
+- **Custom Webpack loaders and plugins**: Enhance your Webpack configuration with custom loaders and plugins.
+- **TypeScript support**: Written in TypeScript for type safety and better developer experience.
+- **Modular output**: Supports ES, CommonJS, and UMD module formats.
 - **Comprehensive testing**: Includes a robust testing setup using Jest.
-- **Support for resource preloading**:Supports preloading various resources, not just requests.
 
 ## Installation
 
@@ -148,7 +149,7 @@ export default {
 
 Now, our user list data will be requested immediately when the chunk file for this page is loaded.Here’s a demonstration image:
 
-![demonstration](./Demonstration.gif)
+![demonstration](./demonstration.gif)
 
 You can see that the request for the page data is made even before the chunk file for the page has finished loading. This can significantly enhance the user experience under poor network conditions.
 
