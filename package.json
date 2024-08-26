@@ -1,6 +1,6 @@
 {
   "name": "@sdp/prefetch-preload",
-  "version": "0.0.7",
+  "version": "0.0.8-beta.3",
   "description": "data preloading solution for project",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -16,6 +16,7 @@
     "test": "NODE_ENV=test jest",
     "copy:files": "cpx \"{package.json,LICENSE}\" build/",
     "deploy": "npm run build && cd build && npm publish",
+    "deploy:beta": "npm run build && cd build && npm publish --tag beta",
     "deploy:local": "npm run build && cd build && npm link"
   },
   "keywords": [

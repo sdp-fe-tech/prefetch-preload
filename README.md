@@ -1,4 +1,3 @@
-
 # prefetch-preload
 
 [![npm version](https://badge.fury.io/js/vue-prefetch.svg)](https://badge.fury.io/js/vue-prefetch)
@@ -107,4 +106,7 @@ Please ensure all tests pass and add appropriate tests for any new features or b
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+```
+
 ```
