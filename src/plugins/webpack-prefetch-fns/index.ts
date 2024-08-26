@@ -47,7 +47,7 @@ export class PrefetchAsyncFnPlugin {
           (assets, callback) => {
             if (fs.existsSync(outputPath) && fs.readFileSync(outputPath, 'utf-8')) {
               const data = JSON.parse(fs.readFileSync(outputPath, 'utf-8')) as { [key: string]: FunctionData[] };
-              let source = 'window.__sdpPrefetchAsyncFns = {\n';
+              let source = 'window._prefetchAsyncFns = {\n';
 
               for (const [key, value] of Object.entries(data)) {
                 source += `  '${key}': [\n`;
@@ -59,7 +59,7 @@ export class PrefetchAsyncFnPlugin {
 
               source += '};\n';
 
-              const outputFile = this.options.outputFile || 'sdpPrefetchAsyncFn.js';
+              const outputFile = this.options.outputFile || 'prefetchAsyncFn.js';
               hashedFilename = replaceContentHashInFilename(outputFile, source);
               // 将生成的代码注入到资源中
               compilation.emitAsset(hashedFilename, {

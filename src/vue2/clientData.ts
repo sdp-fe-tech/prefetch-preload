@@ -68,16 +68,16 @@ class PrefetchDataManager {
     // 获取指定路径的预取数据
     if (routePath) {
       let pageId: string | null = null;
-      console.log('__sdp_base_route_maps', window.__sdp_base_route_maps);
-      const routeMap: RouteMap | undefined = window.__sdp_base_route_maps?.find(
+      console.log('_base_route_maps', window._base_route_maps);
+      const routeMap: RouteMap | undefined = window._base_route_maps?.find(
         (v: RouteMap) => v.path === routePath,
       );
       if (routeMap) {
         pageId = normalizePath(routeMap.component);
       }
       if (pageId) {
-        return window.__sdpPrefetchAsyncFns
-          ? window.__sdpPrefetchAsyncFns[pageId + '.vue']
+        return window._prefetchAsyncFns
+          ? window._prefetchAsyncFns[pageId + '.vue']
           : null;
       }
     }
@@ -149,7 +149,7 @@ export async function handleRouteBeforeEnter(
 // 声明全局变量的类型
 declare global {
   interface Window {
-    __sdp_base_route_maps: RouteMap[];
-    __sdpPrefetchAsyncFns: { [key: string]: DataLoader[] };
+    _base_route_maps: RouteMap[];
+    _prefetchAsyncFns: { [key: string]: DataLoader[] };
   }
 }

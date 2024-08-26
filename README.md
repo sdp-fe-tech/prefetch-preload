@@ -19,8 +19,7 @@
 
 ## Working Principle
 
-During the build process, it reads the mapping relationship between routes and pages, extracts the requests that need to be preloaded from the pages, and then directly calls the corresponding request methods when the route changes, instead of initiating the requests after the instance is created.
-
+![principle](./demonstration/principle.png)
 ## Features
 
 - **Vue.js utility methods**: A collection of useful methods to streamline your Vue.js development.
@@ -53,9 +52,9 @@ const {
   PrefetchAsyncFnPlugin,
 } = require('prefetch-preload');
 
-const sdpPrefetchAsyncFnDataPath = path.resolve(
+const prefetchAsyncFnDataPath = path.resolve(
   __dirname,
-  'sdpPrefetchAsyncFn.json',
+  'prefetchAsyncFn.json',
 );
 
 module.exports =  {
@@ -68,7 +67,7 @@ module.exports =  {
             {
               loader: 'prefetch-preload/cjs/loaders/getClientDataLoader.js', 
               options: {
-                outputPath: sdpPrefetchAsyncFnDataPath,
+                outputPath: prefetchAsyncFnDataPath,
                 dirPath: path.resolve('./src'),
               },
             },
@@ -83,8 +82,8 @@ module.exports =  {
      		outputFile: 'route-mapping.[contenthash:8].js', // The output map file
     	}),
     	new PrefetchAsyncFnPlugin({
-      		outputPath: sdpPrefetchAsyncFnDataPath,
-      		outputFile: 'sdpPrefetchAsyncFn.[contenthash:8].js',
+      		outputPath: prefetchAsyncFnDataPath,
+      		outputFile: 'prefetchAsyncFn.[contenthash:8].js',
     	}),
     ]
 }
@@ -156,6 +155,20 @@ Before using prefetch,The data request starts after a period of time once the ch
 After using preload,You can see that the request for the page data is made even before the chunk file for the page has finished loading. This can significantly enhance the user experience under poor network conditions:
 
 ![demonstration](./demonstration/demonstration.gif)
+
+Prefetch performs better in environments with poorer network conditions. Below are the page load speed results under a weak 3G network condition:
+
+Before:
+
+![before-time](./demonstration/before-time.png)
+
+After:
+
+![after-time](./demonstration/after-time.png)
+
+
+
+You can see that before using Prefetch, it took about 4300ms from the start of requesting the chunk to the start of requesting data and rendering the page. However, after using Prefetch, this process was reduced to 2100ms, making it 2200ms faster!
 
 ## Todo
 

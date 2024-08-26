@@ -141,7 +141,7 @@ export class RouteMappingPlugin {
               },
             });
 
-            const code = `window.__sdp_base_route_maps = ${JSON.stringify(
+            const code = `window._base_route_maps = ${JSON.stringify(
               routes
             )}`;
 
