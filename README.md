@@ -159,9 +159,9 @@ After using preload,You can see that the request for the page data is made even 
 
 ## Todo
 
-- **Simplified configuration**: A more streamlined configuration makes getting started easier.For example, compatible with standardized route definition and self-parsing.
-- **Supports more frameworks**:Supports more frameworks such as Vue and React.
-- **Support for resource preloading**:Supports preloading various resources, not just requests.
+- [ ] **Simplified configuration**: A more streamlined configuration makes getting started easier.For example, compatible with standardized route definition and self-parsing.
+- [ ] **Supports more frameworks**:Supports more frameworks such as Vue and React.
+- [ ] **Support for resource preloading**:Supports preloading various resources, not just requests.
 
 ## Build and Test
 
