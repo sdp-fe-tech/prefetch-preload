@@ -1,6 +1,6 @@
 # prefetch-preload
 
-[![npm version](https://badge.fury.io/js/vue-prefetch.svg)](https://badge.fury.io/js/vue-prefetch)
+[![npm version](https://img.shields.io/npm/v/prefetch-preload.svg)](https://www.npmjs.com/package/prefetch-preload)
 
 ## Table of Contents
 
@@ -228,3 +228,4 @@ If you have any questions or need assistance, please contact us at [zuojinlong](
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
