@@ -1,6 +1,6 @@
 {
   "name": "prefetch-preload",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "data preloading solution for project",
   "main": "cjs/index.js",
   "module": "esm/index.js",
