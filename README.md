@@ -4,14 +4,19 @@
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Build and Test](#build-and-test)
-- [Peer Dependencies](#peer-dependencies)
-- [Contributing](#contributing)
-- [License](#license)
+- [prefetch-preload](#prefetch-preload)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Working Principle](#working-principle)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Vue](#vue)
+  - [Todo](#todo)
+  - [Build and Test](#build-and-test)
+  - [Peer Dependencies](#peer-dependencies)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Introduction
 
@@ -205,7 +210,7 @@ Ensure that the following peer dependencies are installed in your project:
 You can install them with:
 
 ```bash
-npm install babel-core@6.26.3 webpack@^5 babel-loader@>=7.1.5 vue-loader@>=14.2.4 html-webpack-plugin@^5.0.0
+npm install -D babel-core@6.26.3 webpack@^5 babel-loader@>=7.1.5 vue-loader@>=14.2.4 html-webpack-plugin@^5.0.0
 ```
 
 ## Contributing
