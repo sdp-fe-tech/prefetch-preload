@@ -20,6 +20,7 @@
 ## Working Principle
 
 ![principle](./demonstration/principle.png)
+
 ## Features
 
 - **Vue.js utility methods**: A collection of useful methods to streamline your Vue.js development.
@@ -52,56 +53,52 @@ const {
   PrefetchAsyncFnPlugin,
 } = require('prefetch-preload');
 
-const prefetchAsyncFnDataPath = path.resolve(
-  __dirname,
-  'prefetchAsyncFn.json',
-);
+const prefetchAsyncFnDataPath = path.resolve(__dirname, 'prefetchAsyncFn.json');
 
-module.exports =  {
-    module: {
-      rules: [
-        {
-          enforce: 'pre',
-          test: /\.vue$/,
-          use: [
-            {
-              loader: 'prefetch-preload/cjs/loaders/getClientDataLoader.js', 
-              options: {
-                outputPath: prefetchAsyncFnDataPath,
-                dirPath: path.resolve('./src'),
-              },
+module.exports = {
+  module: {
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.vue$/,
+        use: [
+          {
+            loader: 'prefetch-preload/cjs/loaders/getClientDataLoader.js',
+            options: {
+              outputPath: prefetchAsyncFnDataPath,
+              dirPath: path.resolve('./src'),
             },
-          ],
-        },
-      ]
-    },
-    plugins: [
-      	new RouteMappingPlugin({
-            routerFilePath: './src/prefetch.js',   
-            // Can be omitted; the `prefetch.js` file under the `src` directory is used 			by default.
-     		outputFile: 'route-mapping.[contenthash:8].js', // The output map file
-    	}),
-    	new PrefetchAsyncFnPlugin({
-      		outputPath: prefetchAsyncFnDataPath,
-      		outputFile: 'prefetchAsyncFn.[contenthash:8].js',
-    	}),
-    ]
-}
-
+          },
+        ],
+      },
+    ],
+  },
+  plugins: [
+    new RouteMappingPlugin({
+      routerFilePath: './src/prefetch.js',
+      // Can be omitted; the `prefetch.js` file under the `src` directory is used 			by default.
+      outputFile: 'route-mapping.[contenthash:8].js', // The output map file
+    }),
+    new PrefetchAsyncFnPlugin({
+      outputPath: prefetchAsyncFnDataPath,
+      outputFile: 'prefetchAsyncFn.[contenthash:8].js',
+    }),
+  ],
+};
 ```
 
 Then,You need to set up `handleRouteBeforeEnter` in the project’s route guard, including the route information and request method:
 
 ```typescript
 import { handleRouteBeforeEnter } from 'prefetch-preload/esm/vue2';
-import { get, post } from './api/request';   // request method
+import { get, post } from './api/request'; // request method
 
 router.beforeEach(function (to, from, next) {
-    handleRouteBeforeEnter(to, from, next, { get, post });
-})
+  handleRouteBeforeEnter(to, from, next, { get, post });
+});
 ```
 
-Then.You need to create a file named `prefetch.js` in the project’s `src` directory. Of course, you can place it anywhere and then pass it in through the `RouteMappingPlugin` plugin. In `prefetch.js`, write the pages that need data prefetching in the following format.Note that the  name must be `'prefetchRoutes'`:
+Then.You need to create a file named `prefetch.js` in the project’s `src` directory. Of course, you can place it anywhere and then pass it in through the `RouteMappingPlugin` plugin. In `prefetch.js`, write the pages that need data prefetching in the following format.Note that the name must be `'prefetchRoutes'`:
 
 ```js
 const prefetchRoutes = [
@@ -112,8 +109,8 @@ const prefetchRoutes = [
   {
     path: '/orderTag',
     component: () => import('@/pages/order/orderTag'),
-  }
-]
+  },
+];
 ```
 
 You have now completed the basic configuration. The following explains how to declare the data prefetch method in the page and execute this method to obtain the desired data before the component instance is loaded, this is a example in '.vue' page:
@@ -165,8 +162,6 @@ Before:
 After:
 
 ![after-time](./demonstration/after-time.png)
-
-
 
 You can see that before using Prefetch, it took about 4300ms from the start of requesting the chunk to the start of requesting data and rendering the page. However, after using Prefetch, this process was reduced to 2100ms, making it 2200ms faster!
 
@@ -221,10 +216,10 @@ We welcome contributions to this project. Please follow these steps to contribut
 
 Please ensure all tests pass and add appropriate tests for any new features or bug fixes.
 
+## Contact
+
+If you have any questions or need assistance, please contact us at [zuojinlong](mailto:zuojinlong@movee.cn).
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-```
-
-```
